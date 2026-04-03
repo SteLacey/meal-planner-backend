@@ -1,5 +1,6 @@
 use sea_orm_migration::{prelude::*, schema::*};
 use crate::m20260403_000002_create_recipes_table::Recipes;
+use crate::m20260403_000003_create_recipe_items_table::RecipeItems;
 use crate::m20260403_000004_create_tags_table::Tags;
 
 #[derive(DeriveMigrationName)]
@@ -29,6 +30,11 @@ impl MigrationTrait for Migration {
                             .to(Tags::Table, Tags::Id)
                             .on_delete(ForeignKeyAction::Cascade)
                             .on_update(ForeignKeyAction::Cascade),
+                    )
+                    .primary_key(
+                        Index::create()
+                            .col(RecipeTags::RecipeId)
+                            .col(RecipeTags::TagId)
                     )
                     .to_owned(),
             )
