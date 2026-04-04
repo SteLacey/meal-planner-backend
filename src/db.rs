@@ -1,5 +1,4 @@
 use rocket::figment::Figment;
-use rocket::request::{FromRequest, Outcome};
 use rocket_db_pools::Database;
 use sea_orm::{DatabaseConnection, DbErr};
 
