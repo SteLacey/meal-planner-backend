@@ -3,8 +3,12 @@ name = "meal-planner"
 version = "0.1.0"
 edition = "2024"
 
+[workspace]
+members = [".", "migration"]
+
 [dependencies]
 rocket = { version = "0.5.1", features = ["json"] }
 sea-orm = { version = "~2.0.0-rc", features = [ "sqlx-postgres", "runtime-tokio-rustls", "macros" ] }
 rocket_db_pools = { version =  "0.2.0", features = ["sqlx_postgres"] }
 serde = { version = "1.0.228", features = ["derive"] }
+migration = { path = "migration" }

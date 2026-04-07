@@ -1,8 +1,6 @@
 use rocket::figment::Figment;
-use rocket_db_pools::Database;
+use rocket_db_pools::{Config, Database};
 use sea_orm::{DatabaseConnection, DbErr};
-
-const DATABASE_URL: &str = "postgres://postgres:dev@localhost:5432/meal-planner_dev"; // TODO: Get from config
 
 #[derive(Database)]
 #[database("sea_orm")]
@@ -18,7 +16,8 @@ impl rocket_db_pools::Pool for SeaOrmPool {
     type Error = DbErr;
 
     async fn init(figment: &Figment) -> Result<Self, Self::Error> {
-        let conn = sea_orm::Database::connect(DATABASE_URL).await?;
+        let config: Config = figment.extract().unwrap();
+        let conn = sea_orm::Database::connect(config.url).await?;
         Ok(SeaOrmPool { conn })
     }
 

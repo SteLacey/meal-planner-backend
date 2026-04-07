@@ -1,0 +1,8 @@
+[default]
+log_level = "normal"
+
+[default.databases.sea_orm]
+url = "postgres://postgres:dev@localhost:5432/meal-planner_dev"
+
+[docker.databases.sea_orm]
+url = "postgres://postgres:dev@host.docker.internal:5432/meal-planner_dev"
