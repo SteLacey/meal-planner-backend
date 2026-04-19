@@ -1,25 +1,26 @@
 use crate::db::Db;
 use crate::entity::prelude::Recipes;
 use crate::view::recipe::Recipe;
+use rocket::futures::future::join_all;
 use rocket::http::Status;
 use rocket::serde::json::Json;
 use rocket_db_pools::Connection;
 use sea_orm::EntityTrait;
 
 #[get("/get_recipes")]
-async fn get_recipes(conn: Connection<Db>) -> Result<Json<Recipe>, Status> {
+async fn get_recipes(conn: Connection<Db>) -> Result<Json<Vec<Recipe>>, Status> {
     let db = conn.into_inner();
-    let recipe = Recipes::find()
-        .one(&db)
-        .await
-        .expect("Error finding recipes");
+    let recipe = Recipes::find().all(&db).await;
 
     match recipe {
-        Some(recipe) => match Recipe::from_model(&recipe, &db).await {
-            Ok(view) => Ok(Json(view)),
-            Err(_) => Err(Status::InternalServerError),
-        },
-        None => Err(Status::NotFound),
+        Ok(recipes) => Ok(Json(
+            join_all(recipes.iter().map(|recipe| Recipe::from_model(recipe, &db)))
+                .await
+                .into_iter()
+                .filter_map(|r| r.map_err(|e| println!("{:?}", e)).ok())
+                .collect(),
+        )),
+        Err(_) => Err(Status::InternalServerError),
     }
 }
 
