@@ -2,8 +2,9 @@
 
 pub mod prelude;
 
+pub mod ingredient_preps;
 pub mod ingredients;
-pub mod recipe_items;
+pub mod recipe_ingredients;
 pub mod recipe_tags;
 pub mod recipes;
 pub mod tags;

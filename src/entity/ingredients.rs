@@ -10,8 +10,8 @@ pub struct Model {
     #[sea_orm(primary_key)]
     pub id: i32,
     pub name: String,
-    #[sea_orm(has_many, via = "recipe_items")]
-    pub recipes: HasMany<super::recipes::Entity>,
+    #[sea_orm(has_many)]
+    pub ingredient_preps: HasMany<super::ingredient_preps::Entity>,
 }
 
 impl ActiveModelBehavior for ActiveModel {}
