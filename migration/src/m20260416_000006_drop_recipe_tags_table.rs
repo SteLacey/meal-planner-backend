@@ -1,7 +1,7 @@
-use sea_orm_migration::{prelude::*, schema::*};
 use crate::m20260402_000001_create_ingredients_table::Ingredients;
 use crate::m20260403_000002_create_recipes_table::Recipes;
 use crate::m20260403_000003_create_recipe_items_table::RecipeItems;
+use sea_orm_migration::{prelude::*, schema::*};
 
 #[derive(DeriveMigrationName)]
 pub struct Migration;

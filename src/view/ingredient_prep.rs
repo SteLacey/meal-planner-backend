@@ -1,8 +1,8 @@
-use rocket::serde::{Deserialize, Serialize};
-use sea_orm::{DbConn, DbErr, ModelTrait};
+use super::ingredient::Ingredient;
 use crate::entity::ingredient_preps::Model;
 use crate::entity::ingredients;
-use super::ingredient::Ingredient;
+use rocket::serde::{Deserialize, Serialize};
+use sea_orm::{DbConn, DbErr, ModelTrait};
 
 #[derive(Serialize, Deserialize)]
 pub struct IngredientPrep {

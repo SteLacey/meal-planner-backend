@@ -1,5 +1,5 @@
-use rocket::serde::{Deserialize, Serialize};
 use crate::entity::tags::Model;
+use rocket::serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize)]
 pub struct Tag {

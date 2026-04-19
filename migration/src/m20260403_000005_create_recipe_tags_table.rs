@@ -1,6 +1,6 @@
-use sea_orm_migration::{prelude::*, schema::*};
 use crate::m20260403_000002_create_recipes_table::Recipes;
 use crate::m20260403_000004_create_tags_table::Tags;
+use sea_orm_migration::{prelude::*, schema::*};
 
 #[derive(DeriveMigrationName)]
 pub struct Migration;

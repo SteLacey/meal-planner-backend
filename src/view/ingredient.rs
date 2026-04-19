@@ -1,5 +1,5 @@
-use rocket::serde::{Deserialize, Serialize};
 use crate::entity::ingredients::Model;
+use rocket::serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize)]
 pub struct Ingredient {

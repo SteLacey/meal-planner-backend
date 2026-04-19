@@ -1,16 +1,15 @@
+#[macro_use] extern crate rocket;
 mod db;
 mod entity;
 mod api;
 mod view;
 
-#[macro_use] extern crate rocket;
-
-use rocket::{fairing, Build, Rocket};
-use rocket::fairing::AdHoc;
-use rocket_db_pools::{Database};
-use db::Db;
 use api::api::api_routes;
+use db::Db;
 use migration::MigratorTrait;
+use rocket::fairing::AdHoc;
+use rocket::{fairing, Build, Rocket};
+use rocket_db_pools::Database;
 
 #[get("/")]
 fn index() -> &'static str {
