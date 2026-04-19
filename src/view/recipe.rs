@@ -19,15 +19,9 @@ pub struct Recipe {
 
 impl Recipe {
     pub async fn from_model(model: &Model, db: &DatabaseConnection) -> Result<Recipe, DbErr> {
-        let ingredient_preps = model
-            .find_related(ingredient_preps::Entity)
-            .all(db)
-            .await?;
+        let ingredient_preps = model.find_related(ingredient_preps::Entity).all(db).await?;
 
-        let tags = model
-            .find_related(tags::Entity)
-            .all(db)
-            .await?;
+        let tags = model.find_related(tags::Entity).all(db).await?;
         let tags_views = tags.iter().map(|t| Tag::from_model(t)).collect();
 
         Ok(Recipe {
@@ -40,12 +34,16 @@ impl Recipe {
         })
     }
 
-    async fn get_ingredient_prep_views(ingredient_preps: &Vec<IngredientPrepModel>, db: &DatabaseConnection) -> Result<Vec<IngredientPrep>, DbErr> {
+    async fn get_ingredient_prep_views(
+        ingredient_preps: &Vec<IngredientPrepModel>,
+        db: &DatabaseConnection,
+    ) -> Result<Vec<IngredientPrep>, DbErr> {
         let ingredient_preps_views = join_all(
             ingredient_preps
                 .iter()
-                .map(|ip| IngredientPrep::from_model(ip, &db))
-        ).await;
+                .map(|ip| IngredientPrep::from_model(ip, &db)),
+        )
+        .await;
 
         let mut errored_ip_views = vec![];
 

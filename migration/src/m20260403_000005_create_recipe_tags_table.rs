@@ -33,7 +33,7 @@ impl MigrationTrait for Migration {
                     .primary_key(
                         Index::create()
                             .col(RecipeTags::RecipeId)
-                            .col(RecipeTags::TagId)
+                            .col(RecipeTags::TagId),
                     )
                     .to_owned(),
             )

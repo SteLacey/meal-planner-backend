@@ -31,7 +31,8 @@ impl MigrationTrait for Migration {
 
     async fn down(&self, manager: &SchemaManager) -> Result<(), DbErr> {
         manager
-            .drop_table(Table::drop().table(IngredientPreps::Table).to_owned()).await
+            .drop_table(Table::drop().table(IngredientPreps::Table).to_owned())
+            .await
     }
 }
 
@@ -42,5 +43,5 @@ pub enum IngredientPreps {
     IngredientId,
     PrePrep,
     Amount,
-    Unit
+    Unit,
 }

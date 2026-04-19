@@ -9,22 +9,22 @@ pub struct IngredientPrep {
     pub pre_prep: Option<String>,
     pub amount: u32,
     pub unit: String,
-    pub ingredient: Ingredient
+    pub ingredient: Ingredient,
 }
 
 impl IngredientPrep {
     pub async fn from_model(model: &Model, db: &DbConn) -> Result<IngredientPrep, DbErr> {
-        Ok(
-            IngredientPrep {
-                pre_prep: model.pre_prep.clone(),
-                amount: model.amount as u32,
-                unit: model.unit.clone(),
-                ingredient: Ingredient::from_model(&model
+        Ok(IngredientPrep {
+            pre_prep: model.pre_prep.clone(),
+            amount: model.amount as u32,
+            unit: model.unit.clone(),
+            ingredient: Ingredient::from_model(
+                &model
                     .find_related(ingredients::Entity)
                     .one(db)
                     .await?
-                    .unwrap())
-            }
-        )
+                    .unwrap(),
+            ),
+        })
     }
 }

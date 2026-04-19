@@ -1,14 +1,15 @@
-#[macro_use] extern crate rocket;
+#[macro_use]
+extern crate rocket;
+mod api;
 mod db;
 mod entity;
-mod api;
 mod view;
 
 use api::api::api_routes;
 use db::Db;
 use migration::MigratorTrait;
 use rocket::fairing::AdHoc;
-use rocket::{fairing, Build, Rocket};
+use rocket::{Build, Rocket, fairing};
 use rocket_db_pools::Database;
 
 #[get("/")]

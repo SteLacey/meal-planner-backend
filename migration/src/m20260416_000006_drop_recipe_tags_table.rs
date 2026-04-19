@@ -9,11 +9,9 @@ pub struct Migration;
 #[async_trait::async_trait]
 impl MigrationTrait for Migration {
     async fn up(&self, manager: &SchemaManager) -> Result<(), DbErr> {
-        manager.drop_table(
-            Table::drop()
-                .table(RecipeItems::Table)
-                .to_owned()
-        ).await
+        manager
+            .drop_table(Table::drop().table(RecipeItems::Table).to_owned())
+            .await
     }
 
     async fn down(&self, manager: &SchemaManager) -> Result<(), DbErr> {
@@ -45,7 +43,7 @@ impl MigrationTrait for Migration {
                     .primary_key(
                         Index::create()
                             .col(RecipeItems::RecipeId)
-                            .col(RecipeItems::IngredientId)
+                            .col(RecipeItems::IngredientId),
                     )
                     .to_owned(),
             )

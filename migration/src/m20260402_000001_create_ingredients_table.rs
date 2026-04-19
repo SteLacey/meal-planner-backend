@@ -28,5 +28,5 @@ impl MigrationTrait for Migration {
 pub enum Ingredients {
     Table,
     Id,
-    Name
+    Name,
 }

@@ -1,9 +1,6 @@
 use crate::db::Db;
 use crate::entity::prelude::Recipes;
-use crate::view::ingredient::Ingredient;
-use crate::view::ingredient_prep::IngredientPrep;
 use crate::view::recipe::Recipe;
-use crate::view::tag::Tag;
 use rocket::http::Status;
 use rocket::serde::json::Json;
 use rocket_db_pools::Connection;
@@ -18,12 +15,11 @@ async fn get_recipes(conn: Connection<Db>) -> Result<Json<Recipe>, Status> {
         .expect("Error finding recipes");
 
     match recipe {
-        Some(recipe) =>
-            match Recipe::from_model(&recipe, &db).await {
-                Ok(view) => Ok(Json(view)),
-                Err(_) => Err(Status::InternalServerError)
-            },
-        None => Err(Status::NotFound)
+        Some(recipe) => match Recipe::from_model(&recipe, &db).await {
+            Ok(view) => Ok(Json(view)),
+            Err(_) => Err(Status::InternalServerError),
+        },
+        None => Err(Status::NotFound),
     }
 }
 

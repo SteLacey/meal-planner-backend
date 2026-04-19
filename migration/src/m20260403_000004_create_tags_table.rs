@@ -28,5 +28,5 @@ impl MigrationTrait for Migration {
 pub enum Tags {
     Table,
     Id,
-    Tag
+    Tag,
 }

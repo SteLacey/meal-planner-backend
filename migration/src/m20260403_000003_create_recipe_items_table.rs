@@ -36,7 +36,7 @@ impl MigrationTrait for Migration {
                     .primary_key(
                         Index::create()
                             .col(RecipeItems::RecipeId)
-                            .col(RecipeItems::IngredientId)
+                            .col(RecipeItems::IngredientId),
                     )
                     .to_owned(),
             )
@@ -57,5 +57,5 @@ pub enum RecipeItems {
     IngredientId,
     PrePrep,
     Amount,
-    Unit
+    Unit,
 }
