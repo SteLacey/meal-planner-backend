@@ -1,11 +1,14 @@
 use crate::db::Db;
-use crate::entity::prelude::Recipes;
+use crate::entity::prelude::{Recipes, Tags};
+use crate::entity::prelude::Ingredients;
 use crate::view::recipe::Recipe;
 use rocket::futures::future::join_all;
 use rocket::http::Status;
 use rocket::serde::json::Json;
 use rocket_db_pools::Connection;
 use sea_orm::EntityTrait;
+use crate::view::ingredient::Ingredient;
+use crate::view::tag::Tag;
 
 #[get("/get_recipes")]
 async fn get_recipes(conn: Connection<Db>) -> Result<Json<Vec<Recipe>>, Status> {
@@ -24,6 +27,36 @@ async fn get_recipes(conn: Connection<Db>) -> Result<Json<Vec<Recipe>>, Status> 
     }
 }
 
+#[get("/get_ingredients")]
+async fn get_ingredients(conn: Connection<Db>) -> Result<Json<Vec<Ingredient>>, Status> {
+    let db = conn.into_inner();
+
+    match Ingredients::find().all(&db).await {
+        Ok(ingredients) => Ok(Json(
+            ingredients
+                .iter()
+                .map(|i| Ingredient::from_model(i))
+                .collect()
+        )),
+        Err(_) => Err(Status::InternalServerError),
+    }
+}
+
+#[get("/get_tags")]
+async fn get_tags(conn: Connection<Db>) -> Result<Json<Vec<Tag>>, Status> {
+    let db = conn.into_inner();
+
+    match Tags::find().all(&db).await {
+        Ok(ingredients) => Ok(Json(
+            ingredients
+                .iter()
+                .map(|t| Tag::from_model(t))
+                .collect()
+        )),
+        Err(_) => Err(Status::InternalServerError),
+    }
+}
+
 pub fn api_routes() -> Vec<rocket::Route> {
-    routes![get_recipes]
+    routes![get_recipes, get_ingredients, get_tags,]
 }
