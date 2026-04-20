@@ -1,4 +1,4 @@
-use super::ingredient::Ingredient;
+use super::ingredient::IngredientResponse;
 use crate::entity::ingredient_preps::Model;
 use crate::entity::ingredients;
 use rocket::serde::{Deserialize, Serialize};
@@ -9,7 +9,7 @@ pub struct IngredientPrep {
     pub pre_prep: Option<String>,
     pub amount: u32,
     pub unit: String,
-    pub ingredient: Ingredient,
+    pub ingredient: IngredientResponse,
 }
 
 impl IngredientPrep {
@@ -18,7 +18,7 @@ impl IngredientPrep {
             pre_prep: model.pre_prep.clone(),
             amount: model.amount as u32,
             unit: model.unit.clone(),
-            ingredient: Ingredient::from_model(
+            ingredient: IngredientResponse::from_model(
                 &model
                     .find_related(ingredients::Entity)
                     .one(db)

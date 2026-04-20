@@ -2,7 +2,7 @@ use super::tag::Tag;
 use crate::entity::ingredient_preps::Model as IngredientPrepModel;
 use crate::entity::recipes::Model;
 use crate::entity::{ingredient_preps, tags};
-use crate::view::ingredient_prep::IngredientPrep;
+use crate::view::response::ingredient_prep::IngredientPrep;
 use rocket::futures::future::join_all;
 use rocket::serde::{Deserialize, Serialize};
 use sea_orm::{DatabaseConnection, DbErr, ModelTrait};

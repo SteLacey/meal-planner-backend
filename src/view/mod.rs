@@ -1,4 +1,2 @@
-pub mod ingredient;
-pub mod ingredient_prep;
-pub mod recipe;
-pub mod tag;
+pub mod response;
+pub mod request;
