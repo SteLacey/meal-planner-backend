@@ -5,6 +5,7 @@ mod db;
 mod entity;
 mod view;
 
+use crate::api::ingredient::ingredient_routes;
 use api::api::api_routes;
 use db::Db;
 use migration::MigratorTrait;
@@ -30,6 +31,7 @@ async fn main() -> Result<(), rocket::Error> {
         .attach(AdHoc::try_on_ignite("Database Migrations", run_migrations))
         .mount("/", routes![index])
         .mount("/api", api_routes())
+        .mount("/api", ingredient_routes())
         .launch()
         .await?;
 
