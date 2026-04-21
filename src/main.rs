@@ -12,6 +12,7 @@ use migration::MigratorTrait;
 use rocket::fairing::AdHoc;
 use rocket::{Build, Rocket, fairing};
 use rocket_db_pools::Database;
+use crate::api::recipe::recipe_routes;
 
 #[get("/")]
 fn index() -> &'static str {
@@ -32,6 +33,7 @@ async fn main() -> Result<(), rocket::Error> {
         .mount("/", routes![index])
         .mount("/api", api_routes())
         .mount("/api", ingredient_routes())
+        .mount("/api", recipe_routes())
         .launch()
         .await?;
 
