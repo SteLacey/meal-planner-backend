@@ -6,7 +6,7 @@ use crate::view::response::ingredient::IngredientResponse;
 use rocket::http::Status;
 use rocket::serde::json::Json;
 use rocket_db_pools::Connection;
-use sea_orm::{ActiveModelTrait, EntityTrait, IntoActiveModel, NotSet, Set, TryIntoModel};
+use sea_orm::{ActiveModelTrait, ColumnTrait, EntityTrait, IntoActiveModel, NotSet, Set, TryIntoModel, QueryFilter};
 
 #[get("/ingredient/all")]
 async fn get_ingredients(conn: Connection<Db>) -> Result<Json<Vec<IngredientResponse>>, Status> {
@@ -31,6 +31,24 @@ async fn get_ingredient(id: i32, conn: Connection<Db>) -> Result<Json<Ingredient
         Ok(opt) => match opt {
             Some(found) => Ok(Json(IngredientResponse::from_model(&found))),
             None => Err(Status::NotFound),
+        },
+        Err(_) => Err(Status::InternalServerError),
+    }
+}
+
+#[get("/ingredient?<name>")]
+async fn find_ingredient(name: &str, conn: Connection<Db>) -> Result<Json<Vec<IngredientResponse>>, Status> {
+    let db = conn.into_inner();
+
+    match Ingredients::find()
+        .filter(ingredients::Column::Name.ilike(format!("%{}%", name)))
+        .all(&db)
+        .await {
+        Ok(ingredients) => {
+            Ok(Json(ingredients
+                .iter()
+                .map(|i| IngredientResponse::from_model(i))
+                .collect()))
         },
         Err(_) => Err(Status::InternalServerError),
     }
@@ -92,6 +110,7 @@ pub fn ingredient_routes() -> Vec<rocket::Route> {
     routes![
         get_ingredients,
         get_ingredient,
+        find_ingredient,
         update_ingredient,
         add_ingredient
     ]
