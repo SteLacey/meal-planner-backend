@@ -47,7 +47,7 @@ async fn create_recipe(recipe_request: Json<RecipeRequest>, conn: Connection<Db>
         .iter()
         .map(async |tag_id| recipe_tags::ActiveModel {
             recipe_id: Set(new_recipe.id),
-            tag_id: Set(tag_id.clone() as i32)
+            tag_id: Set(*tag_id as i32)
         }
             .insert(&txn)
             .await)

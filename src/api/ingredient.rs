@@ -16,7 +16,7 @@ async fn get_ingredients(conn: Connection<Db>) -> Result<Json<Vec<IngredientResp
         Ok(ingredients) => Ok(Json(
             ingredients
                 .iter()
-                .map(|i| IngredientResponse::from_model(i))
+                .map(IngredientResponse::from_model)
                 .collect(),
         )),
         Err(_) => Err(Status::InternalServerError),
@@ -47,7 +47,7 @@ async fn find_ingredient(name: &str, conn: Connection<Db>) -> Result<Json<Vec<In
         Ok(ingredients) => {
             Ok(Json(ingredients
                 .iter()
-                .map(|i| IngredientResponse::from_model(i))
+                .map(IngredientResponse::from_model)
                 .collect()))
         },
         Err(_) => Err(Status::InternalServerError),

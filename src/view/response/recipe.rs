@@ -22,7 +22,7 @@ impl RecipeResponse {
         let ingredient_preps = model.find_related(ingredient_preps::Entity).all(db).await?;
 
         let tags = model.find_related(tags::Entity).all(db).await?;
-        let tags_views = tags.iter().map(|t| TagResponse::from_model(t)).collect();
+        let tags_views = tags.iter().map(TagResponse::from_model).collect();
 
         Ok(RecipeResponse {
             id: model.id,
@@ -35,13 +35,13 @@ impl RecipeResponse {
     }
 
     async fn get_ingredient_prep_views(
-        ingredient_preps: &Vec<IngredientPrepModel>,
+        ingredient_preps: &[IngredientPrepModel],
         db: &DatabaseConnection,
     ) -> Result<Vec<IngredientPrepResponse>, DbErr> {
         let ingredient_preps_views = join_all(
             ingredient_preps
                 .iter()
-                .map(|ip| IngredientPrepResponse::from_model(ip, &db)),
+                .map(|ip| IngredientPrepResponse::from_model(ip, db)),
         )
         .await;
 

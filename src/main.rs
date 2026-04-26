@@ -6,7 +6,7 @@ mod entity;
 mod view;
 
 use crate::api::ingredient::ingredient_routes;
-use api::api::api_routes;
+use api::tag::tag_routes;
 use db::Db;
 use migration::MigratorTrait;
 use rocket::fairing::AdHoc;
@@ -25,13 +25,14 @@ async fn run_migrations(rocket: Rocket<Build>) -> fairing::Result {
     Ok(rocket)
 }
 
+#[allow(clippy::result_large_err)]
 #[rocket::main]
 async fn main() -> Result<(), rocket::Error> {
     rocket::build()
         .attach(Db::init())
         .attach(AdHoc::try_on_ignite("Database Migrations", run_migrations))
         .mount("/", routes![index])
-        .mount("/api", api_routes())
+        .mount("/api", tag_routes())
         .mount("/api", ingredient_routes())
         .mount("/api", recipe_routes())
         .launch()

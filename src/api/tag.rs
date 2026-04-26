@@ -12,12 +12,12 @@ async fn get_tags(conn: Connection<Db>) -> Result<Json<Vec<TagResponse>>, Status
 
     match Tags::find().all(&db).await {
         Ok(ingredients) => Ok(Json(
-            ingredients.iter().map(|t| TagResponse::from_model(t)).collect(),
+            ingredients.iter().map(TagResponse::from_model).collect(),
         )),
         Err(_) => Err(Status::InternalServerError),
     }
 }
 
-pub fn api_routes() -> Vec<rocket::Route> {
+pub fn tag_routes() -> Vec<rocket::Route> {
     routes![get_tags,]
 }
